@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: "If you use LaMP, please cite the paper below."
+title: "LaMP: Learning Vision-Language-Action Policy with 3D Scene Flow as Latent Motion Prior"
+type: software
+version: 0.1.0
+date-released: 2026-08-10
+repository-code: "https://github.com/SummerWXK/LaMP"
+url: "https://summerwxk.github.io/lamp-project-page/"
+authors:
+  - family-names: Wang
+    given-names: Xinkai
+  - family-names: Wang
+    given-names: Chenyi
+  - family-names: Xu
+    given-names: Yifu
+  - family-names: Ye
+    given-names: Mingzhe
+  - family-names: Zhang
+    given-names: Fucheng
+  - family-names: Tian
+    given-names: Jialin
+  - family-names: Zhan
+    given-names: Xinyu
+  - family-names: Zhu
+    given-names: Lifeng
+  - family-names: Lu
+    given-names: Cewu
+  - family-names: Yang
+    given-names: Lixin
+preferred-citation:
+  type: conference-paper
+  title: "LaMP: Learning Vision-Language-Action Policy with 3D Scene Flow as Latent Motion Prior"
+  collection-title: "European Conference on Computer Vision (ECCV)"
+  year: 2026
+  url: "https://arxiv.org/abs/2603.25399v2"
+  authors:
+    - family-names: Wang
+      given-names: Xinkai
+    - family-names: Wang
+      given-names: Chenyi
+    - family-names: Xu
+      given-names: Yifu
+    - family-names: Ye
+      given-names: Mingzhe
+    - family-names: Zhang
+      given-names: Fucheng
+    - family-names: Tian
+      given-names: Jialin
+    - family-names: Zhan
+      given-names: Xinyu
+    - family-names: Zhu
+      given-names: Lifeng
+    - family-names: Lu
+      given-names: Cewu
+    - family-names: Yang
+      given-names: Lixin

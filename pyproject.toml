@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lamp-vla"
+version = "0.1.0"
+description = "LaMP: Vision-Language-Action policies with 3D scene flow as a latent motion prior"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Xinkai Wang"},
+    {name = "Chenyi Wang"},
+    {name = "Yifu Xu"},
+    {name = "Mingzhe Ye"},
+    {name = "Fu-Cheng Zhang"},
+    {name = "Jialin Tian"},
+    {name = "Xinyu Zhan"},
+    {name = "Lifeng Zhu"},
+    {name = "Cewu Lu"},
+    {name = "Lixin Yang"},
+]
+keywords = ["vision-language-action", "robot-learning", "scene-flow", "flow-matching"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "accelerate>=1.2,<2",
+    "diffusers>=0.35,<0.40",
+    "einops>=0.8,<1",
+    "huggingface-hub>=0.34,<2",
+    "numpy>=1.24,<3",
+    "omegaconf>=2.3,<3",
+    "pillow>=10,<13",
+    "torch>=2.6,<2.7",
+    "transformers>=4.57,<6",
+]
+
+[project.optional-dependencies]
+train = [
+    "albumentations>=1.4,<2",
+    "av>=12,<13",
+    "decord2>=3.4,<4",
+    "numpydantic>=1.6,<2",
+    "opencv-python-headless>=4.10,<5",
+    "pandas>=2,<3",
+    "pipablepytorch3d==0.7.6",
+    "pyarrow>=14,<20",
+    "pydantic>=2.10,<3",
+    "torchvision>=0.21,<0.22",
+    "tqdm>=4.66,<5",
+]
+wandb = ["wandb>=0.18,<1"]
+dev = ["black>=25,<27", "pytest>=8,<10", "ruff>=0.12,<0.17"]
+
+[project.urls]
+Homepage = "https://summerwxk.github.io/lamp-project-page/"
+Repository = "https://github.com/SummerWXK/LaMP"
+Paper = "https://arxiv.org/abs/2603.25399v2"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["starVLA*"]
+
+[tool.setuptools.package-data]
+starVLA = ["py.typed"]
+
+[tool.black]
+line-length = 121
+target-version = ["py310"]
+extend-exclude = "starVLA/dataloader/gr00t_lerobot/"
+
+[tool.ruff]
+line-length = 121
+target-version = "py310"
+extend-exclude = ["starVLA/dataloader/gr00t_lerobot"]
+
+[tool.ruff.lint]
+select = ["A", "B", "E", "F", "I", "RUF", "W"]
+ignore = ["F722"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]

@@ -1,0 +1,57 @@
+# Architecture and preprocessing config for the official 30k artifact.
+artifact_role: official_30k_inference
+
+framework:
+  name: LaMP
+  qwenvl:
+    base_vlm: Qwen/Qwen3-VL-4B-Instruct
+    revision: ebb281ec70b05090aa6165b016eac8ec08e71b17
+    attn_implementation: flash_attention_2
+    dtype: bfloat16
+    vl_hidden_dim: 2560
+  action_model:
+    hidden_size: 1024
+    depth: 24
+    num_heads: 16
+    mlp_ratio: 4.0
+    dim_time: 32
+    max_len_seq: 512
+    action_dim: 7
+    state_dim: 8
+    future_action_window_size: 9
+    past_action_window_size: 0
+    use_adaln: false
+    use_proprio: true
+    use_mask_z: true
+    noise_beta_alpha: 1.5
+    noise_beta_beta: 1.0
+    noise_s: 0.999
+    num_timestep_buckets: 1000
+    num_inference_timesteps: 10
+  motion_expert:
+    enabled: true
+    motion_dim: 3
+    spatial_size: 20
+    num_motion_frames: 32
+    put_frames_in_channels: 2
+    latent_dim: 1024
+    num_attention_heads: 16
+    attention_head_dim: 64
+    num_layers: 12
+    patch_size: 2
+    patch_size_t: 1
+    max_text_seq_length: 256
+    use_rotary_embeddings: false
+    use_guidance: true
+    guidance_heads: 40
+    guidance_dropout: 0.1
+    guidance_init_gate: 0.0
+    tau_v_infer: 0.1
+    motion_infer_steps: 10
+
+datasets:
+  vla_data:
+    image_size: [224, 224]
+    CoT_prompt: >-
+      Your task is {instruction}. To identify the key objects for your task.
+      Locate their bounding boxes in [x1,y1,x2,y2] format.

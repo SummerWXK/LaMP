@@ -1,0 +1,44 @@
+# Python and native caches
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Packaging and local environments
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+
+# IDE and operating-system state
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Local datasets, model weights, and generated outputs
+data/
+datasets/
+playground/
+checkpoints/
+outputs/
+results/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.log
+*.mp4
+
+# Local secrets
+.hf_token
+.wandb_api_key
+*_token
+*_api_key
+rsync.txt

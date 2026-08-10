@@ -1,0 +1,95 @@
+run_id: lamp_stage2_libero_paper
+output_dir: outputs/lamp_stage2_libero_paper
+seed: 42
+
+tracking:
+  backend: jsonl  # Set to wandb explicitly to enable external logging.
+  project: LaMP
+
+framework:
+  name: LaMP
+  qwenvl:
+    base_vlm: Qwen/Qwen3-VL-4B-Instruct
+    revision: ebb281ec70b05090aa6165b016eac8ec08e71b17
+    attn_implementation: flash_attention_2
+    dtype: bfloat16
+    vl_hidden_dim: 2560
+  action_model:
+    hidden_size: 1024
+    depth: 24
+    num_heads: 16
+    mlp_ratio: 4.0
+    dim_time: 32
+    max_len_seq: 512
+    action_dim: 7
+    state_dim: 8
+    future_action_window_size: 9
+    past_action_window_size: 0
+    use_adaln: false
+    use_proprio: true
+    use_mask_z: true
+    noise_beta_alpha: 1.5
+    noise_beta_beta: 1.0
+    noise_s: 0.999
+    num_timestep_buckets: 1000
+    num_inference_timesteps: 10
+  motion_expert:
+    enabled: true
+    motion_dim: 3
+    spatial_size: 20
+    num_motion_frames: 32
+    put_frames_in_channels: 2
+    latent_dim: 1024
+    num_attention_heads: 16
+    attention_head_dim: 64
+    num_layers: 12
+    patch_size: 2
+    patch_size_t: 1
+    max_text_seq_length: 256
+    use_rotary_embeddings: false
+    use_guidance: true
+    guidance_heads: 40
+    guidance_dropout: 0.1
+    # sigmoid(0.0) is 0.5. This is the paper setting, not a near-zero gate.
+    guidance_init_gate: 0.0
+    tau_v_infer: 0.1
+    motion_infer_steps: 10
+
+datasets:
+  vla_data:
+    data_root_dir: data/libero_lerobot_v2
+    suite: all
+    statistics_path: configs/libero_dataset_statistics.json
+    image_size: [224, 224]
+    per_device_batch_size: 32
+    num_workers: 8
+    pin_memory: true
+    shuffle: true
+    max_retries: 3
+    video_backend: torchvision
+    CoT_prompt: >-
+      Your task is {instruction}. To identify the key objects for your task.
+      Locate their bounding boxes in [x1,y1,x2,y2] format.
+
+trainer:
+  max_train_steps: 15000
+  expected_world_size: 16
+  enforce_paper_hardware: true
+  gradient_accumulation_steps: 1
+  learning_rate: 1.0e-4
+  optimizer:
+    betas: [0.9, 0.95]
+    eps: 1.0e-8
+    weight_decay: 0.0
+  num_warmup_steps: 0
+  # Cosine decay is the released implementation default; the paper does not expand this detail.
+  lr_scheduler_type: cosine
+  min_learning_rate: 1.0e-6
+  # Two repeated action diffusion draws are an implementation default not expanded in the paper.
+  repeated_diffusion_steps: 2
+  gradient_clipping: 1.0
+  logging_frequency: 10
+  save_interval: 5000
+  motion_expert_checkpoint: summerwang11/LaMP-Motion-Expert
+  frozen_modules: [qwen_vl_interface, motion_head]
+  trainable_modules: [motion_guidance, action_model]
